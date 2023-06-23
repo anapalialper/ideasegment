@@ -1,0 +1,56 @@
+version: '3.7'
+
+#volumes:
+  #dbdata: #named volume
+
+services:
+
+  webserver:
+    container_name: webserver
+    hostname: webserver
+    image: nginx:stable-alpine
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+      - ./app:/var/www/ideasegment
+
+  db:
+    image: percona
+    container_name: perconadb
+    hostname: perconadb
+    restart: always
+    env_file: .env
+    volumes:
+      - ./db_vol:/var/lib/mysql
+    command: '--default-authentication-plugin=mysql_native_password' #PHP ve dolayısıyla WordPress imajımız MySQL'in daha
+    #yeni kimlik doğrulama varsayılanını desteklemeyeceğinden,
+    #uygulama veritabanı kullanıcımızın kimliğini doğrulamak için bu ayarlamayı yapmalıyız.
+
+  php:
+    container_name: php
+    hostname: php
+    build: .
+    env_file: .env
+    volumes:
+      - ./app:/var/www/ideasegment
+      
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+    depends_on:
+      - webserver
+    ports:
+      - "8082:80"
+
+  pythonservice:
+    container_name: pythonservice
+    build: ./python
+    volumes:
+      - ./python:/usr/src/app
+    ports:
+      - "8000:8000"
+    command: bash -c "python test.py && tail -f /dev/null"
