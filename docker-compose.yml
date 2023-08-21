@@ -36,7 +36,7 @@ services:
     env_file: .env
     volumes:
       - ./app:/var/www/ideasegment
-      
+
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     environment:

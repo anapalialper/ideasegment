@@ -5,3 +5,12 @@ scipy
 scikit-learn
 pandas
 nltk
+seaborn
+warnings
+os
+missingno
+sklearn
+plotly
+category_encoders
+ipywidgets
+io

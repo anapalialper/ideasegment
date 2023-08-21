@@ -15,7 +15,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 RUN curl -sS https://get.symfony.com/cli/installer | bash
 RUN mv /root/.symfony5/bin/symfony /usr/local/bin/
 #CMD symfony new --demo project --no-git && chown -R :www-data project/ && chmod -R 775 project/ && php-fpm
-RUN git config --global user.email "alper.anapali@ideasoft.com.tr" \ 
+RUN git config --global user.email "alper.anapali@ideasoft.com.tr" \
     && git config --global user.name "alper.anapali"
 
 #RUN composer install volume mount edildigi icin duzgun calismiyor containera girip yaz
